@@ -645,6 +645,83 @@
       text-underline-offset: 3px;
     }
 
+    /* ============================================================
+       IMPRESSUM
+    ============================================================ */
+    .impressum {
+      background: var(--bg-3);
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+    }
+    .impressum-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+      padding: 0;
+      transition: color var(--ease);
+    }
+    .impressum-toggle:hover { color: var(--text-2); }
+    .impressum-toggle svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform var(--ease);
+    }
+    .impressum-toggle.open svg { transform: rotate(180deg); }
+    .impressum-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 48px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, margin 0.4s ease, opacity 0.4s ease;
+      margin-top: 0;
+      opacity: 0;
+    }
+    .impressum-body.open {
+      max-height: 600px;
+      margin-top: 20px;
+      opacity: 1;
+    }
+    .impressum-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 6px 0;
+    }
+    .impressum-lbl {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .impressum-val {
+      font-size: 0.875rem;
+      color: var(--text-2);
+    }
+    .impressum-val a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    @media (max-width: 680px) {
+      .impressum-body { grid-template-columns: 1fr; }
+    }
 
     /* ============================================================
        FOOTER
@@ -1060,6 +1137,48 @@
 </section>
 
 <!-- ============================================================
+     IMPRESSUM
+============================================================ -->
+<aside class="impressum" id="impressum" aria-label="Impresum">
+  <div class="wrap">
+    <button class="impressum-toggle" id="impressum-toggle" aria-expanded="false" aria-controls="impressum-body">
+      Impresum
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="impressum-body" id="impressum-body">
+      <div class="impressum-row">
+        <span class="impressum-lbl">Naziv medija</span>
+        <span class="impressum-val">Beogradski institut omladinske politike</span>
+      </div>
+      <div class="impressum-row">
+        <span class="impressum-lbl">Naziv izdavača</span>
+        <span class="impressum-val">Beogradski institut omladinske politike</span>
+      </div>
+      <div class="impressum-row">
+        <span class="impressum-lbl">Sedište izdavača</span>
+        <span class="impressum-val">Đevđelijska 25, 11120 Beograd</span>
+      </div>
+      <div class="impressum-row">
+        <span class="impressum-lbl">Glavni i odgovorni urednik za sve rubrike</span>
+        <span class="impressum-val">Aleksandar Ostojić</span>
+      </div>
+      <div class="impressum-row">
+        <span class="impressum-lbl">Adresa elektronske pošte</span>
+        <span class="impressum-val"><a href="mailto:urednik@beopinstitut.rs">urednik@beopinstitut.rs</a></span>
+      </div>
+      <div class="impressum-row">
+        <span class="impressum-lbl">Nadležno regulatorno telo</span>
+        <span class="impressum-val">Regulatorno telo za elektronske medije, Trg Nikole Pašića 5, 11000 Beograd</span>
+      </div>
+      <div class="impressum-row" style="grid-column: 1 / -1;">
+        <span class="impressum-lbl">Registracija</span>
+        <span class="impressum-val">Beogradski institut omladinske politike je upisan u registar javnih glasila Agencije za privredne registre Republike Srbije pod brojem IN001599.</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ============================================================
      FOOTER
 ============================================================ -->
 <footer class="footer" role="contentinfo">
@@ -1168,6 +1287,16 @@
   }, { rootMargin: '0px 0px -72px 0px', threshold: 0.08 });
 
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ---------- Impressum toggle ---------- */
+  const impToggle = document.getElementById('impressum-toggle');
+  const impBody   = document.getElementById('impressum-body');
+
+  impToggle.addEventListener('click', () => {
+    const open = impBody.classList.toggle('open');
+    impToggle.classList.toggle('open', open);
+    impToggle.setAttribute('aria-expanded', String(open));
+  });
 
 </script>
 
